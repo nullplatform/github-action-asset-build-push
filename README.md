@@ -1,9 +1,5 @@
 # Nullplatform Asset Build & Push Composite GitHub Action
 
-<p align="center">
-  <a href="https://github.com/nullplatform/github-action-asset-build-push/actions"><img alt="javscript-action status" src="https://github.com/nullplatform/github-action-asset-build-push/workflows/units-test/badge.svg"></a>
-</p>
-
 You can use the GitHub Action to manage build assets workflow on Nullplatform.
 
 ## Change action.yml
@@ -33,8 +29,7 @@ You can now consume the action by referencing the v1 branch
 ```yaml
 uses: nullplatform/github-action-asset-build-push@v1
 with:
-  name: ${{ secrets.NULLPLATFORM_API_KEY }}
-  type: docker-image
+  build-id: 123456
+  application-path: .
+  name: main
 ```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
