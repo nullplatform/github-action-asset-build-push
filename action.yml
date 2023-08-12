@@ -1,0 +1,55 @@
+name: Asset Build & Push
+description: Github Action to automates supported asset types build & push processes on Nullplatform
+inputs:
+  application-id:
+    description: The application id where this asset belongs to
+    required: true
+  build-id:
+    description: The build id where this asset belongs to
+    required: true
+  type:
+    description: The asset type, could be docker-image, lambda, etc
+    required: true
+  application-path:
+    description: The application path inside the repository. Defaults to current path
+    required: false
+    default: .
+  name:
+    description: The asset name, by default 'main'
+    required: false
+    default: main
+  metadata:
+    description: "The asset metadata, format is: <key>:<value>"
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Checkout code
+      id: checkout-code
+      uses: actions/checkout@v3
+    - name: Get build parameters
+      id: get-build-parameters
+      uses: nullplatform/github-action-parameter@v1
+      with:
+        application-id: ${{ inputs.application-id }}
+    - name: Configure AWS credentials
+      id: configure-aws-credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ env.BUILD_AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ env.BUILD_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.BUILD_AWS_REGION }}
+    - name: Build & push Docker image
+      uses: ./docker-image
+      if: ${{ inputs.type == 'docker-image' }}
+      with:
+        build-id: ${{ inputs.build-id }}
+        file: ${{ inputs.application-path }}
+        name: ${{ inputs.name }}
+    - name: Build & push Lambda function
+      uses: ./lambda
+      if: ${{ inputs.type == lambda' }}
+      with:
+        build-id: ${{ inputs.build-id }}
+        file: ${{ inputs.application-path }}
+        name: ${{ inputs.name }}

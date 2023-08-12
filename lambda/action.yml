@@ -1,0 +1,20 @@
+name: Lambda ZIP Build & Push
+description: Build and push a ZIP file for the application inside the specified path
+inputs:
+  build-id:
+    description: The build id where this asset belongs to
+    required: true
+  application-path:
+    description: The application path where the ZIP file must be generated
+    required: false
+    default: .
+  name:
+    description: Asset name, by default 'main'
+    required: false
+    default: main
+runs:
+  using: composite
+  steps:
+    - name: Dummy Step
+      id: dummy
+      run: echo "Not implemented yet"
