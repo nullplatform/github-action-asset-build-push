@@ -48,7 +48,7 @@ runs:
         name: ${{ inputs.name }}
     - name: Build & push Lambda function
       uses: ./lambda
-      if: ${{ inputs.type == lambda' }}
+      if: ${{ inputs.type == 'lambda' }}
       with:
         build-id: ${{ inputs.build-id }}
         file: ${{ inputs.application-path }}
