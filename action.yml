@@ -40,14 +40,14 @@ runs:
         aws-secret-access-key: ${{ env.BUILD_AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.BUILD_AWS_REGION }}
     - name: Build & push Docker image
-      uses: ./docker-image
+      uses: nullplatform/github-action-asset-build-push/docker-image@v1
       if: ${{ inputs.type == 'docker-image' }}
       with:
         build-id: ${{ inputs.build-id }}
         file: ${{ inputs.application-path }}
         name: ${{ inputs.name }}
     - name: Build & push Lambda function
-      uses: ./lambda
+      uses: nullplatform/github-action-asset-build-push/lambda@v1
       if: ${{ inputs.type == 'lambda' }}
       with:
         build-id: ${{ inputs.build-id }}
