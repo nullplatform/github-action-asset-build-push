@@ -14,8 +14,8 @@ inputs:
     default: main
 runs:
   using: composite
-  shell: bash
   steps:
     - name: Dummy Step
       id: dummy
+      shell: bash
       run: echo "Not implemented yet"

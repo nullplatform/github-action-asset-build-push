@@ -14,13 +14,13 @@ inputs:
     default: main
 runs:
   using: composite
-  shell: bash
   steps:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     - name: Build Docker image
       id: docker-build-image
+      shell: bash
       run: docker build -t docker-image -f ${{ inputs.file }}/Dockerfile .
     - name: Create asset for build
       id: create-asset
@@ -32,6 +32,7 @@ runs:
         name: ${{ inputs.name }}
     - name: Push Docker image
       id: docker-push-image
+      shell: bash
       run: |
         docker tag docker-image ${{ fromJson(steps.create-asset.outputs.targets)[0].url }}
         docker push ${{ fromJson(steps.create-asset.outputs.targets)[0].url }}
