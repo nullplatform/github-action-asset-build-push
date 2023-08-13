@@ -21,7 +21,7 @@ runs:
     - name: Build Docker image
       id: docker-build-image
       shell: bash
-      run: docker build -t docker-image -f ${{ inputs.file }}/Dockerfile .
+      run: docker build -t docker-image -f ${{ inputs.application-path }}/Dockerfile .
     - name: Create asset for build
       id: create-asset
       uses: nullplatform/github-action-asset@v1
