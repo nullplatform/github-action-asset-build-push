@@ -15,10 +15,17 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Build ZIP file
+    - name: Build asset file
       id: makefile-build-file
       shell: bash
-      run: make build PATH=${{ inputs.path }} NAME=${{ inputs.name }}
+      env:
+        WORKING_DIRECTORY: ${{ inputs.path }}
+        ASSET_OUTPUT_DIRECTORY: ${{ inputs.path }}/build
+        ASSET_FILE: ${{ inputs.name }}.zip
+      run: |
+        make build WORKING_DIRECTORY=$WORKING_DIRECTORY ASSET_OUTPUT_DIRECTORY=$ASSET_OUTPUT_DIRECTORY
+        cd $ASSET_OUTPUT_DIRECTORY
+        zip -r $ASSET_FILE .
     - name: Create asset for build
       id: create-asset
       uses: nullplatform/github-action-asset@v1
@@ -27,9 +34,10 @@ runs:
         build-id: ${{ inputs.build-id }}
         type: lambda
         name: ${{ inputs.name }}
-    - name: Push Docker image
-      id: docker-push-image
+    - name: Push asset file
+      id: s3-push-file
       shell: bash
       env:
+        ASSET_FILE: ${{ inputs.path }}/build/${{ inputs.name }}.zip
         TARGET_URL: ${{ fromJson(steps.create-asset.outputs.targets)[0].url }}
-      run: make push TARGET_URL=${{ env.TARGET_URL }}
+      run: aws s3 cp $ASSET_FILE ${{ env.TARGET_URL }}
