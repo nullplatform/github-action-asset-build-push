@@ -41,6 +41,7 @@ runs:
         aws-region: ${{ env.BUILD_AWS_REGION }}
     - name: Build & push Docker image
       uses: nullplatform/github-action-asset-build-push/docker-image@v1
+      continue-on-error: true
       if: ${{ inputs.type == 'docker-image' }}
       with:
         build-id: ${{ inputs.build-id }}
@@ -48,6 +49,7 @@ runs:
         name: ${{ inputs.name }}
     - name: Build & push Lambda function
       uses: nullplatform/github-action-asset-build-push/lambda@v1
+      continue-on-error: true
       if: ${{ inputs.type == 'lambda' }}
       with:
         build-id: ${{ inputs.build-id }}
