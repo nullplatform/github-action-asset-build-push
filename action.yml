@@ -10,8 +10,8 @@ inputs:
   type:
     description: The asset type, could be docker-image, lambda, etc
     required: true
-  application-path:
-    description: The application path inside the repository. Defaults to current path
+  path:
+    description: The path inside the repository where the asset should be created. Defaults to current path
     required: false
     default: .
   name:
@@ -44,12 +44,12 @@ runs:
       if: ${{ inputs.type == 'docker-image' }}
       with:
         build-id: ${{ inputs.build-id }}
-        application-path: ${{ inputs.application-path }}
+        path: ${{ inputs.path }}
         name: ${{ inputs.name }}
     - name: Build & push Lambda function
       uses: nullplatform/github-action-asset-build-push/lambda@v1
       if: ${{ inputs.type == 'lambda' }}
       with:
         build-id: ${{ inputs.build-id }}
-        application-path: ${{ inputs.application-path }}
+        path: ${{ inputs.path }}
         name: ${{ inputs.name }}

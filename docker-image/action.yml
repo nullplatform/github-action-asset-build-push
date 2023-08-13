@@ -4,8 +4,8 @@ inputs:
   build-id:
     description: The build id where this asset belongs to
     required: true
-  application-path:
-    description: The application path where the Dockerfile file is located
+  path:
+    description: The path where the Dockerfile file is located
     required: false
     default: .
   name:
@@ -21,7 +21,7 @@ runs:
     - name: Build Docker image
       id: docker-build-image
       shell: bash
-      run: docker build -t docker-image -f ${{ inputs.application-path }}/Dockerfile .
+      run: docker build -t docker-image -f ${{ inputs.path }}/Dockerfile .
     - name: Create asset for build
       id: create-asset
       uses: nullplatform/github-action-asset@v1

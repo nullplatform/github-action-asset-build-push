@@ -4,8 +4,8 @@ inputs:
   build-id:
     description: The build id where this asset belongs to
     required: true
-  application-path:
-    description: The application path where the ZIP file must be generated
+  path:
+    description: The path where the ZIP file must be generated
     required: false
     default: .
   name:
@@ -15,7 +15,21 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Dummy Step
-      id: dummy
+    - name: Build ZIP file
+      id: makefile-build-file
       shell: bash
-      run: echo "Not implemented yet"
+      run: make build PATH=${{ inputs.path }} NAME=${{ inputs.name }}
+    - name: Create asset for build
+      id: create-asset
+      uses: nullplatform/github-action-asset@v1
+      with:
+        action: create
+        build-id: ${{ inputs.build-id }}
+        type: lambda
+        name: ${{ inputs.name }}
+    - name: Push Docker image
+      id: docker-push-image
+      shell: bash
+      env:
+        TARGET_URL: ${{ fromJson(steps.create-asset.outputs.targets)[0].url }}
+      run: make push TARGET_URL=${{ env.TARGET_URL }}
