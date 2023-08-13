@@ -31,5 +31,6 @@ uses: nullplatform/github-action-asset-build-push@v1
 with:
   build-id: 123456
   application-path: .
+  type: docker-image # docker-image, lambda, etc.
   name: main
 ```
