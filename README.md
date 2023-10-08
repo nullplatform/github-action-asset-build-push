@@ -1,3 +1,20 @@
+# :warning: Repository Deprecation Notice :warning:
+
+Dear users,
+
+We want to inform you that this repository is now **deprecated** and will no longer be actively maintained.
+
+## Action Replacement
+
+This action should be substituted by the following actions provided by nullplatform:
+
+- [Nullplatform Github Action Asset Build](https://github.com/nullplatform/github-action-asset-build)
+- [Nullplatform Github Action Asset Push](https://github.com/nullplatform/github-action-asset-push)
+
+Please consider transitioning to these actions to continue your workflow seamlessly.
+
+If you have any questions or need further assistance with the transition, please feel free to reach out.
+
 # Nullplatform Asset Build & Push Composite GitHub Action
 
 You can use the GitHub Action to manage build assets workflow on Nullplatform.
